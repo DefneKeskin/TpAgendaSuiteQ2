@@ -41,7 +41,12 @@ public class Event {
      */
     public boolean isInDay(LocalDate aDay) {
         // TODO : implémenter cette méthode
-        throw new UnsupportedOperationException("Pas encore implémenté");
+        //throw new UnsupportedOperationException("Pas encore implémenté");
+        LocalDate dayStart = LocalDate.of(this.myStart.getYear(), this.myStart.getMonth(), this.myStart.getDayOfMonth()); 
+        LocalDateTime myEnd = this.myStart.plus(this.myDuration);
+        LocalDate dayEnd = LocalDate.of(myEnd.getYear(), myEnd.getMonth(), myEnd.getDayOfMonth());
+        
+        return aDay.isAfter(dayStart) && aDay.isBefore(dayEnd);
     }
    
     /**
