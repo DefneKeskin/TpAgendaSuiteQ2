@@ -43,4 +43,10 @@ public class Agenda {
         }
         return evenementDay;
     }
+
+    @Override
+    public String toString() {
+        return "Agenda{" + "listeEvenements=" + listeEvenements + '}';
+    }
+    
 }

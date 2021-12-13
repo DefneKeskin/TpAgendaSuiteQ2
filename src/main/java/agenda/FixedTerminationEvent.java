@@ -62,5 +62,12 @@ public class FixedTerminationEvent extends RepetitiveEvent {
     public long getNumberOfOccurrences() {
         return numberOfOccurrences;
     }
+
+    @Override
+    public String toString() {
+        return "FixedTerminationEvent{" + "terminationInclusive=" + terminationInclusive + ", numberOfOccurrences=" + numberOfOccurrences + '}';
+    }
+    
+    
         
 }

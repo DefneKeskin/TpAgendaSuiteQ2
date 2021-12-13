@@ -53,4 +53,10 @@ public class RepetitiveEvent extends Event {
         return this.frequency;
     }
 
+    @Override
+    public String toString() {
+        return "RepetitiveEvent{" + "frequency=" + frequency + ", exceptions=" + exceptions + '}';
+    }
+    
+
 }
