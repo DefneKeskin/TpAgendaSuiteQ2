@@ -52,7 +52,62 @@ public class RepetitiveEvent extends Event {
         //throw new UnsupportedOperationException("Pas encore implémenté");  
         return this.frequency;
     }
-
+    
+    public boolean isInDay(LocalDate aDay) {
+        super.isInDay(aDay);
+        
+        if (this.frequency == ChronoUnit.DAYS){
+            return true;
+        }
+        if (super.isInDay(aDay)){
+            return true;
+        }else{
+            LocalDate dayStart = myStart.plusDays(-1).toLocalDate();
+            LocalDateTime myEnd = this.myStart.plus(this.myDuration);
+            LocalDate dayEnd = myEnd.plusDays(1).toLocalDate();
+            
+            if (this.frequency == ChronoUnit.WEEKS){
+            
+                while (dayStart.isBefore(aDay)){
+                    dayStart.plusWeeks(1);
+                    dayEnd.plusWeeks(1);
+                    if (aDay.isAfter(dayStart) && aDay.isBefore(dayEnd)){
+                        return true;
+                    }
+                }
+                    
+            }
+            
+            if (this.frequency == ChronoUnit.MONTHS){
+                
+                while (dayStart.isBefore(aDay)){
+                    dayStart.plusMonths(1);
+                    dayEnd.plusMonths(1);
+                    if (aDay.isAfter(dayStart) && aDay.isBefore(dayEnd)){
+                        return true;
+                    }
+                }
+                            
+            }
+            
+            if (this.frequency == ChronoUnit.YEARS){
+                while (dayStart.isBefore(aDay)){
+                    dayStart.plusYears(1);
+                    dayEnd.plusYears(1);
+                    if (aDay.isAfter(dayStart) && aDay.isBefore(dayEnd)){
+                        return true;
+                    }
+                }
+                            
+            }
+            
+            return false;
+                
+        }
+        
+    }
+    
+    
     @Override
     public String toString() {
         return "RepetitiveEvent{" + "frequency=" + frequency + ", exceptions=" + exceptions + '}';
