@@ -10,8 +10,10 @@ import java.time.temporal.ChronoUnit;
  * a given number of occurrences
  */
 public class FixedTerminationEvent extends RepetitiveEvent {
+
     public LocalDate terminationInclusive;
     public long numberOfOccurrences;
+
     /**
      * Constructs a fixed terminationInclusive event ending at a given date
      *
@@ -27,8 +29,8 @@ public class FixedTerminationEvent extends RepetitiveEvent {
      * @param terminationInclusive the date when this event ends
      */
     public FixedTerminationEvent(String title, LocalDateTime start, Duration duration, ChronoUnit frequency, LocalDate terminationInclusive) {
-         super(title, start, duration, frequency);
-         this.terminationInclusive=terminationInclusive;
+        super(title, start, duration, frequency);
+        this.terminationInclusive = terminationInclusive;
 
     }
 
@@ -44,7 +46,8 @@ public class FixedTerminationEvent extends RepetitiveEvent {
      * <LI>ChronoUnit.WEEKS for weekly repetitions</LI>
      * <LI>ChronoUnit.MONTHS for monthly repetitions</LI>
      * </UL>
-     * @param numberOfOccurrences the number of occurrences of this repetitive event
+     * @param numberOfOccurrences the number of occurrences of this repetitive
+     * event
      */
     public FixedTerminationEvent(String title, LocalDateTime start, Duration duration, ChronoUnit frequency, long numberOfOccurrences) {
         super(title, start, duration, frequency);
@@ -56,72 +59,60 @@ public class FixedTerminationEvent extends RepetitiveEvent {
      * @return the termination date of this repetitive event
      */
     public LocalDate getTerminationDate() {
-       return  terminationInclusive;
+        return terminationInclusive;
     }
 
     public long getNumberOfOccurrences() {
         return numberOfOccurrences;
     }
-    
-    public boolean isInDay(LocalDate aDay) {
-        super.isInDay(aDay);
-        
-        if (this.frequency == ChronoUnit.DAYS){
-            return true;
-        }
-        if (super.isInDay(aDay)){
-            return true;
-        }else{
-            LocalDate dayStart = myStart.plusDays(-1).toLocalDate();
-            LocalDateTime myEnd = this.myStart.plus(this.myDuration);
-            LocalDate dayEnd = myEnd.plusDays(1).toLocalDate();
-            
-            if (this.frequency == ChronoUnit.WEEKS){
-            
-                while (dayStart.isBefore(this.terminationInclusive)){
-                    dayStart.plusWeeks(1);
-                    dayEnd.plusWeeks(1);
-                    if (aDay.isAfter(dayStart) && aDay.isBefore(dayEnd)){
-                        return true;
-                    }
-                }
-                    
-            }
-            
-            if (this.frequency == ChronoUnit.MONTHS){
-                
-                while (dayStart.isBefore(this.terminationInclusive)){
-                    dayStart.plusMonths(1);
-                    dayEnd.plusMonths(1);
-                    if (aDay.isAfter(dayStart) && aDay.isBefore(dayEnd)){
-                        return true;
-                    }
-                }
-                            
-            }
-            
-            if (this.frequency == ChronoUnit.YEARS){
-                while (dayStart.isBefore(this.terminationInclusive)){
-                    dayStart.plusYears(1);
-                    dayEnd.plusYears(1);
-                    if (aDay.isAfter(dayStart) && aDay.isBefore(dayEnd)){
-                        return true;
-                    }
-                }
-                            
-            }
-            
-            return false;
-                
-        }
-        
-    }
 
-    @Override
-    public String toString() {
-        return "FixedTerminationEvent{" + "terminationInclusive=" + terminationInclusive + ", numberOfOccurrences=" + numberOfOccurrences + '}';
-    }
-    
-    
+    public boolean isInDay(LocalDate aDay) {
+/*
+        if (this.exceptions.contains(aDay)) {
+            return false;
+        } else {
+
+            if (this.frequency == ChronoUnit.DAYS) {
+                return true;
+            }
+*/
+            if (super.isInDay(aDay)) {
+                return true;
+            } else {
+                LocalDate dayStart = myStart.plusDays(-1).toLocalDate();
+                LocalDateTime myEnd = this.myStart.plus(this.myDuration);
+                LocalDate dayEnd = myEnd.plusDays(1).toLocalDate();
+
+                if (this.terminationInclusive != null) {
+
+                    while (dayStart.isBefore(this.getTerminationDate())) {
+                        dayStart = dayStart.plus(1, frequency);
+                        dayEnd = dayStart.plus(1, frequency);
+                        if (aDay.isAfter(dayStart) && aDay.isBefore(dayEnd)) {
+                            return true;
+                        }
+                    }
+                } else {
+                    for (int i = 1; i <= this.getNumberOfOccurrences(); i++) {
+                        dayStart = dayStart.plus(1, frequency);
+                        dayEnd = dayStart.plus(1, frequency);
+                        if (aDay.isAfter(dayStart) && aDay.isBefore(dayEnd)) {
+                            return true;
+                        }
+                    }
+
+                }
+
+                return false;
+
+            }
+        }
+
+        @Override
+        public String toString
         
-}
+            () {
+        return "FixedTerminationEvent{" + "terminationInclusive=" + terminationInclusive + ", numberOfOccurrences=" + numberOfOccurrences + '}';
+        }
+
+    }
