@@ -67,7 +67,7 @@ public class FixedTerminationEvent extends RepetitiveEvent {
     }
 
     public boolean isInDay(LocalDate aDay) {
-/*
+
         if (this.exceptions.contains(aDay)) {
             return false;
         } else {
@@ -75,7 +75,7 @@ public class FixedTerminationEvent extends RepetitiveEvent {
             if (this.frequency == ChronoUnit.DAYS) {
                 return true;
             }
-*/
+
             if (super.isInDay(aDay)) {
                 return true;
             } else {
@@ -107,12 +107,11 @@ public class FixedTerminationEvent extends RepetitiveEvent {
 
             }
         }
-
-        @Override
-        public String toString
-        
-            () {
-        return "FixedTerminationEvent{" + "terminationInclusive=" + terminationInclusive + ", numberOfOccurrences=" + numberOfOccurrences + '}';
-        }
-
     }
+
+    @Override
+    public String toString() {
+        return "FixedTerminationEvent{" + "terminationInclusive=" + terminationInclusive + ", numberOfOccurrences=" + numberOfOccurrences + '}';
+    }
+
+}
