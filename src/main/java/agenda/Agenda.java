@@ -60,7 +60,7 @@ public class Agenda {
     public List<Event> findByTitle(String title) {
         
         ArrayList<Event> eventTitle = new ArrayList<>();
-        
+        //si le titre existe déjà alors on l'ajoute dans la nouvelle liste 
         for (Event e : this.listeEvenements){
             if (e.getTitle()==title){
                 eventTitle.add(e);
@@ -73,10 +73,14 @@ public class Agenda {
      * Déterminer s’il y a de la place dans l'agenda pour un événement
      * @param e L'événement à tester (on se limitera aux événements simples)
      * @return vrai s’il y a de la place dans l'agenda pour cet événement
-     
+     */
     public boolean isFreeFor(Event e) {
-        // TODO : implémenter cette méthode
-        throw new UnsupportedOperationException("Pas encore implémenté");        
+        for (Event event : this.listeEvenements) {
+            //cas ou il y a pas de place est quand debut avant la fin de l'un et quand sa fin est apres le debut de l'un , il y aur aun chevauchement 
+            if (e.getStart().plus(e.getDuration()).isAfter(event.getStart()) && e.getStart().isBefore(event.getStart().plus(event.getDuration()))) {
+                return false;
+            }
+        }
+        return true;
     }
-    * */
 }
