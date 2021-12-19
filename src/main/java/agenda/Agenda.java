@@ -7,7 +7,7 @@ import java.util.*;
  * Description : An agenda that stores events
  */
 public class Agenda {
-    
+    //
     ArrayList<Event> listeEvenements;
 
     public Agenda() {
