@@ -59,15 +59,28 @@ public class FixedTerminationEvent extends RepetitiveEvent {
      * @return the termination date of this repetitive event
      */
     public LocalDate getTerminationDate() {
-        if (this.terminationInclusive != null){
+        if (this.terminationInclusive != null) {
             return this.terminationInclusive;
-        }else{
-            return this.myStart.plus(this.numberOfOccurrences, frequency).toLocalDate();
+        } else {
+            //notre pb c'est qu'il ajoute 1 semaine de plus, en faite il debute pas directement à myStart
+            //Ainsi une des solutions possibles est qu'on peut reduire le nombre d'occurence de 1 
+            return this.myStart.plus(this.numberOfOccurrences-1, frequency).toLocalDate();
         }
+       
     }
 
     public long getNumberOfOccurrences() {
-        return numberOfOccurrences;
+        if (this.terminationInclusive != null) {
+            //calculer le nombre d'occurence à partir de la date de fin et de la date de debut
+            LocalDate dayStart = myStart.plusDays(-1).toLocalDate();
+            //long daysBetween = frequency.between(LocalDate.parse("2016-08-31"),LocalDate.parse("2016-11-30"));
+            //Duration dur = Duration.between(dayStart, terminationInclusive,);
+            long occurence = frequency.between(dayStart,terminationInclusive);
+            //ajoute +1 car on compte la dernière semaine/mois/jours aussi 
+            return occurence+1;
+        } else {
+            return numberOfOccurrences;
+        }
     }
 
     public boolean isInDay(LocalDate aDay) {
