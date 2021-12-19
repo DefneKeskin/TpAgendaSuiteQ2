@@ -61,34 +61,42 @@ public class RepetitiveEvent extends Event {
         } else {
 
             if (this.frequency == ChronoUnit.DAYS) {
-                return true;
-            }
-            if (super.isInDay(aDay)) {
-                return true;
-            } else {
-                LocalDate dayStart = myStart.plusDays(-1).toLocalDate();
-                LocalDateTime myEnd = this.myStart.plus(this.myDuration);
-                LocalDate dayEnd = myEnd.plusDays(1).toLocalDate();
-
-
-                    while (dayStart.isBefore(aDay)) {
-                        dayStart = dayStart.plus(1, frequency);
-                        dayEnd = dayStart.plus(1, frequency);
-                        if (aDay.isAfter(dayStart) && aDay.isBefore(dayEnd)) {
-                            return true;
-                        }
-                    }
-  
+                // return true;
+                LocalDate dayStart = myStart.toLocalDate();
+                if (aDay.isBefore(dayStart)) {
+                    return false;
+                } else {
+                    return true;
+                }
             }
 
-            return false;
+        }
+        if (super.isInDay(aDay)) {
+            return true;
+        } else {
+            LocalDate dayStart = myStart.plusDays(-1).toLocalDate();
+            LocalDateTime myEnd = this.myStart.plus(this.myDuration);
+            LocalDate dayEnd = myEnd.plusDays(1).toLocalDate();
+
+            while (dayStart.isBefore(aDay)) {
+                dayStart = dayStart.plus(1, frequency);
+                dayEnd = dayStart.plus(1, frequency);
+                if (aDay.isAfter(dayStart) && aDay.isBefore(dayEnd)) {
+                    return true;
+                }
+            }
 
         }
 
+        return false;
+
     }
 
-    @Override
-    public String toString() {
+
+
+
+@Override
+        public String toString() {
         return "RepetitiveEvent{" + "frequency=" + frequency + ", exceptions=" + exceptions + '}';
     }
 
