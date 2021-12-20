@@ -67,7 +67,7 @@ public class AgendaTest {
         assertFalse(agenda.isFreeFor(simple),"ne doit pas être libre car il y a déjà l'event Simple dans l'agenda");
         
         //CAS PAS DE CHEVAUCHEMENT
-        Event simple2 = new Event("Simple event", LocalDateTime.of(2019, 11, 1, 22, 30), min_120);
+        Event simple2 = new Event("Simple event", LocalDateTime.of(2018, 11, 1, 22, 30), min_120);
         assertTrue(agenda.isFreeFor(simple2),"Doit être libre");
     }
 
